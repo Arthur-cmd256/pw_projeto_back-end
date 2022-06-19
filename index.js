@@ -13,7 +13,7 @@ const {
     MONGODB_HOST,
     MONGODB_CLUSTER,
     MONGODB_DATABASE,
-    API_PORT
+    PORT
 
 } = process.env
 
@@ -27,7 +27,7 @@ app.use('/produto', produtosRoutes);
 
 mongoose.connect(`mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}.${MONGODB_HOST}.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority`).then(() => {
     console.log('Conectado com sucesso ao MongoDB');
-    app.listen(API_PORT);
+    app.listen(PORT);
 }).catch((err) => console.log(err));
 
 app.get('/teste_api/:ping', (req, res) => {
