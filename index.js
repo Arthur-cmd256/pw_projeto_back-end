@@ -29,6 +29,10 @@ const clientesRoutes = require('./routes/clientesRoutes');
 
 app.use('/cliente', clientesRoutes);
 
+const cestaRoutes = require('./routes/cestaRoutes');
+
+app.use('/cesta', cestaRoutes);
+
 mongoose.connect(`mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}.${MONGODB_HOST}.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority`).then(() => {
     console.log('Conectado com sucesso ao MongoDB');
     app.listen(PORT || 7777);
