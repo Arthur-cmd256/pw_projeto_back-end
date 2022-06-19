@@ -22,6 +22,14 @@ const ClienteSchema = new mongoose.Schema({
         required: true, 
         select: false
     },
+    des_senha_reset_token: {
+        type: String,
+        select: false
+    },
+    des_senha_reset_expires: {
+        type: Date,
+        select: false
+    },
     des_endereco: {
         type: String, 
         required: true
