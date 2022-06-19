@@ -25,9 +25,13 @@ const produtosRoutes = require('./routes/produtosRoutes');
 
 app.use('/produto', produtosRoutes);
 
+const clientesRoutes = require('./routes/clientesRoutes');
+
+app.use('/cliente', clientesRoutes);
+
 mongoose.connect(`mongodb+srv://${MONGODB_USER}:${MONGODB_PASSWORD}@${MONGODB_CLUSTER}.${MONGODB_HOST}.mongodb.net/${MONGODB_DATABASE}?retryWrites=true&w=majority`).then(() => {
     console.log('Conectado com sucesso ao MongoDB');
-    app.listen(PORT);
+    app.listen(PORT || 7777);
 }).catch((err) => console.log(err));
 
 app.get('/teste_api/:ping', (req, res) => {
