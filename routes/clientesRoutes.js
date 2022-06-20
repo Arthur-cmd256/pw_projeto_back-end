@@ -4,6 +4,7 @@ const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const crypto = require('crypto');
 const mailer = require('../modules/mailer');
+const Cesta = require('../models/Cesta');
 require('dotenv').config();
 
 
@@ -22,11 +23,21 @@ router.post('/cadastro', async (req, res) => {
         if ( await Cliente.findOne({ num_cpf }) || await Cliente.findOne({ des_email })) {
             return res.status(400).json({ error: 'Cliente já cadastrado' });
         }
-        const cliente = await Cliente.create(req.body);
+        
+        
+        await Cesta.create({ qtd_itens: 0, val_total: 0.0 }).then(async cesta => {
+            await Cliente.create({...req.body, cesta: cesta._id}).then(cliente => {
+                cesta.cliente = cliente._id;
+                cesta.save();
+                cliente.des_senha = undefined;
+                res.status(201).json({ cliente });
+            }).catch(err => {
+                res.status(400).json({ error: 'Erro ao criar cliente' });
+            });
+        }).catch(err => {
+            res.status(400).json({ error: 'Erro ao criar cesta' });
+        })
 
-        cliente.des_senha = undefined;
-
-        res.status(201).json({ cliente });
     } catch(err){ 
         return res.status(400).json({ error: "Falha ao cadastrar" });
     }

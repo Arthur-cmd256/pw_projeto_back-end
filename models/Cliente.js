@@ -36,6 +36,11 @@ const ClienteSchema = new mongoose.Schema({
     },
     num_telefone: {
         type: String
+    },
+    cesta: {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: 'Cesta',
+        required: true
     }
 });
 
