@@ -30,7 +30,7 @@ router.post('/cadastro', async (req, res) => {
                 cesta.cliente = cliente._id;
                 cesta.save();
                 cliente.des_senha = undefined;
-                res.status(201).json({ cliente });
+                res.status(201).send();
             }).catch(err => {
                 res.status(400).json({ error: 'Erro ao criar cliente' });
             });
