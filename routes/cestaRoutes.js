@@ -51,9 +51,13 @@ router.put('/limpa/:id', async (req, res) => {
         const cestaNova = await Cesta.create({ qtd_itens: 0, val_total: 0.0, cliente: cliente._id });
 
         Cliente.findByIdAndUpdate(cliente._id, { cesta: cestaNova._id }, { new: true }).then(cliente => {
-            res.status(201).send({ status : "ok" });
+            Cesta.deleteOne({ _id: req.params.id }).then(() => {
+                res.status(201).send({ status : "ok" });
+            }).catch(err => {
+                res.status(400).send({ status : "nok", error: 'Erro ao limpar cesta' });
+            });
         }).catch(err => {
-            res.status(400).send({ status : "nok", error: 'Erro ao cadastrar cesta' });
+            res.status(400).send({ status : "nok", error: 'Erro ao limpar cesta' });
         });
 
     } catch (err) {
