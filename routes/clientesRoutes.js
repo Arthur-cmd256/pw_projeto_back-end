@@ -58,10 +58,7 @@ router.post('/login', async (req, res) => {
 
     cliente.des_senha = undefined;
 
-    res.send({ 
-        cliente, 
-        token: generateToken({ id: cliente._id }) 
-    });
+    res.send({ status : "ok", token: generateToken({ id: cliente._id }), cliente });
 });
 
 router.post('/recuperar', async (req, res) => {
