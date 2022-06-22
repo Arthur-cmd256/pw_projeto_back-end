@@ -1,11 +1,24 @@
 const router = require('express').Router();
 const Cesta = require('../models/Cesta');
 const Produto = require('../models/Produto');
+const Cliente = require('../models/Cliente');
 const auth = require('../middlewares/auth');
 
 router.use(auth);
 
 // adicionar produto
+
+router.get('/', async (req, res) => {
+    try {
+        const cliente = await Cliente.findById(req.userId);
+        const { qtd_itens, val_total, produtos }  = await Cesta.findById(cliente.cesta);
+        return res.send({ qtd_itens, val_total, produtos });
+
+    } catch (err) {
+        return res.status(400).send({ error: 'Erro ao listar cestas' });
+    }
+});
+
 router.put('/:id', async (req, res) => {
     try {
         if (!await Cesta.findById(req.params.id)){
