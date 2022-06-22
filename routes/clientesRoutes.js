@@ -25,22 +25,22 @@ router.post('/cadastro', async (req, res) => {
         }
         
         
-        await Cesta.create({ qtd_itens: 0, val_total: 0.0 }).then(async cesta => {
-            await Cliente.create({...req.body, cesta: cesta._id}).then(cliente => {
+        Cesta.create({ qtd_itens: 0, val_total: 0.0 }).then(async cesta => {
+            Cliente.create({...req.body, cesta: cesta._id}).then(cliente => {
                 cesta.cliente = cliente._id;
                 cesta.save();
                 cliente.des_senha = undefined;
-                res.status(201).send();
+                res.status(201).send({ status : "ok" });
             }).catch(err => {
-                res.status(400).send({ error: err });
+                res.status(400).send({ error: 'Erro ao cadastrar cesta' });
             });
         }).catch(err => {
-            res.status(400).send({ error: err });
+            res.status(400).send({ error: 'Erro ao cadastrar cliente' });
         })
-
     } catch(err){ 
         return res.status(400).send({ error: err });
     }
+
 });
 
 router.post('/login', async (req, res) => {
