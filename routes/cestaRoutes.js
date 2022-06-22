@@ -47,9 +47,6 @@ router.put('/limpa/:id', async (req, res) => {
         if (!await Cesta.findById(req.params.id)){
             return res.status(400).json({ error: 'Cesta não encontrada' });
         }
-        if (!await Produto.findById(req.body.produto)){
-            return res.status(400).json({ error: 'Produto não encontrado' });
-        }
         var { qtd_itens, val_total, produtos } = await Cesta.findById(req.params.id);
 
         produtos[produtos.length] = undefined;
