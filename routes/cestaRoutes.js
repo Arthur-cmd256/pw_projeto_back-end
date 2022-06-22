@@ -49,7 +49,7 @@ router.put('/limpa/:id', async (req, res) => {
         }
         var { qtd_itens, val_total, produtos } = await Cesta.findById(req.params.id);
 
-        produtos[produtos.length] = undefined;
+        produtos = {};
         qtd_itens = 0;
         val_total = 0.0;
 
