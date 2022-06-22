@@ -47,17 +47,15 @@ router.put('/limpa/:id', async (req, res) => {
         if (!await Cesta.findById(req.params.id)){
             return res.status(400).json({ error: 'Cesta não encontrada' });
         }
-        var { qtd_itens, val_total, produtos } = await Cesta.findById(req.params.id);
+        const { cliente } = await Cesta.findById(req.params.id);
+        const cestaNova = await Cesta.create({ qtd_itens: 0, val_total: 0.0, cliente: cliente._id });
 
-        for (let produto of produtos) {
-            produto.deleteOne(produto._id);
-        }
-        qtd_itens = 0;
-        val_total = 0.0;
+        Cliente.findByIdAndUpdate(cliente._id, { cesta: cestaNova._id }, { new: true }).then(cliente => {
+            res.status(201).send({ status : "ok" });
+        }).catch(err => {
+            res.status(400).send({ status : "nok", error: 'Erro ao cadastrar cesta' });
+        });
 
-        const cesta = await Cesta.findByIdAndUpdate(req.params.id, { qtd_itens, val_total, produtos }, { new: true });
-
-        return res.send({ cesta });
     } catch (err) {
         res.status(400).send({ error: err.message });
     }
