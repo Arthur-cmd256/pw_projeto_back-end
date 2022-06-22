@@ -50,7 +50,7 @@ router.put('/limpa/:id', async (req, res) => {
         var { qtd_itens, val_total, produtos } = await Cesta.findById(req.params.id);
 
         for (let produto of produtos) {
-            produto = "";
+            produto.remove(_id);
         }
         qtd_itens = 0;
         val_total = 0.0;
