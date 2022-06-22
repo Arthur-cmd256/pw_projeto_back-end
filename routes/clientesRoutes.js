@@ -49,11 +49,11 @@ router.post('/login', async (req, res) => {
     const cliente = await Cliente.findOne({ des_email }).select('+des_senha');
 
     if(!cliente){
-        return res.status(400).json({ error: 'Cliente não encontrado' });
+        return res.status(400).json({ status : "nok", error: 'Cliente não encontrado' });
     }
 
     if (!await bcrypt.compare(des_senha, cliente.des_senha)) {
-        return res.status(400).json({ error: 'Senha inválida' });
+        return res.status(400).json({ status : "nok", error: 'Senha inválida' });
     }
 
     cliente.des_senha = undefined;
