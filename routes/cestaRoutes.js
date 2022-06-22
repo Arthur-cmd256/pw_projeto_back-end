@@ -11,7 +11,7 @@ router.use(auth);
 router.get('/', async (req, res) => {
     try {
         const cliente = await Cliente.findById(req.userId);
-        const { qtd_itens, val_total, produtos }  = await Cesta.findById(cliente.cesta);
+        const { qtd_itens, val_total, produtos }  = await Cesta.findById(cliente.cesta).populate('produtos');
         return res.send({ qtd_itens, val_total, produtos });
 
     } catch (err) {
