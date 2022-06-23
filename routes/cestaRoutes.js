@@ -52,7 +52,7 @@ router.put('/limpa/:id', async (req, res) => {
 
         Cliente.findByIdAndUpdate(cliente._id, { cesta: cestaNova._id }, { new: true }).then(cliente => {
             Cesta.deleteOne({ _id: req.params.id }).then(() => {
-                res.status(201).send({ status : "ok" });
+                res.status(201).send({ status : "ok", cestaId: cestaNova._id });
             }).catch(err => {
                 res.status(400).send({ status : "nok", error: 'Erro ao limpar cesta' });
             });
