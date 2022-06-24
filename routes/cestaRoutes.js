@@ -33,8 +33,9 @@ router.put('/:id', async (req, res) => {
         produtos[produtos.length] = _id;
         qtd_itens += 1;
         val_total += val_produto;
+        val_total_arr = parseFloat(val_total).toFixed(2);
 
-        const cesta = await Cesta.findByIdAndUpdate(req.params.id, { qtd_itens, val_total, produtos }, { new: true });
+        const cesta = await Cesta.findByIdAndUpdate(req.params.id, { qtd_itens, val_total_arr, produtos }, { new: true });
 
         return res.send({ cesta });
     } catch (err) {
